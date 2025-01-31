@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot COP 30</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://via.placeholder.com/1920x1080/2E8B57/FFFFFF?text=Amazônia') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+        header {
+            background: rgba(0, 100, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        #chatbox {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            height: 400px;
+            overflow-y: scroll;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+        #mensagem {
+            width: 70%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #228B22;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #1E7A1E;
+        }
+        .noticias {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+        .noticias h2 {
+            margin-top: 0;
+        }
+        .noticias a {
+            color: #228B22;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .noticias a:hover {
+            text-decoration: underline;
+        }
+        #sugestoes {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px auto;
+            width: 70%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #333;
+            display: none;
+        }
+        #sugestoes p {
+            margin: 5px 0;
+            cursor: pointer;
+            color: #228B22;
+        }
+        #sugestoes p:hover {
+            text-decoration: underline;
+        }
+        #lembrete {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #333;
+            display: none;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 100, 0, 0.8);
+            margin-top: 20px;
+        }
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        nav {
+            background: rgba(0, 100, 0, 0.8);
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .manual {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+        .manual h2 {
+            margin-top: 0;
+        }
+        .manual ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .manual ul li {
+            margin: 10px 0;
+        }
+        .onu-texto {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="onu-texto" onclick="window.open('https://www.un.org/climatechange', '_blank');">ONU</div>
+
+    <header>
+        <h1>Chatbot COP 30</h1>
+        <p>Converse sobre a Conferência das Nações Unidas sobre Mudanças Climáticas</p>
+    </header>
+
+    <div id="chatbox">
+        <p><strong>Chatbot Marcos:</strong> Olá! Eu sou o Marcos, seu chatbot de notícias sobre a COP 30. Como posso ajudar você hoje? </p>
+        <p><strong>Exemplo:</strong> Digite "O que é a COP 30?" para começar.</p>
+    </div>
+    <div style="text-align: center;">
+        <input type="text" id="mensagem" placeholder="Digite sua pergunta (ex: O que é a COP 30?)" oninput="mostrarSugestoes()" onkeypress="handleKeyPress(event)">
+        <button onclick="enviarMensagem()">Enviar</button>
+    </div>
+
+    <div id="sugestoes">
+        <!-- As sugestões serão preenchidas dinamicamente aqui -->
+    </div>
+
+    <div id="lembrete">
+        <h2>Termo não encontrado</h2>
+        <p>Desculpe, não encontramos informações sobre o termo pesquisado.</p>
+        <p>Para mais informações, acesse: <a href="https://www.un.org/climatechange" target="_blank">Site da ONU sobre Mudanças Climáticas</a></p>
+    </div>
+
+    <div class="noticias">
+        <h2>Notícias sobre a COP 30</h2>
+        <ul>
+            <li><a href="https://g1.globo.com/pa/para/noticia/2025/01/20/missao-da-onu-confere-preparativos-para-cop30-em-belem.ghtml" target="_blank">Notícia 1: Preparativos para a COP 30 em Belém</a></li>
+            <li><a href="https://jornal.usp.br/atualidades/mudancas-climaticas-globais-impactam-sul-da-amazonia/" target="_blank">Notícia 2: Amazônia e o combate às mudanças climáticas</a></li>
+            <li><a href="https://antigo.mma.gov.br/florestas/controle-e-preven%C3%A7%C3%A3o-do-desmatamento/plano-amaz%C3%B4nia-sustent%C3%A1vel-pas.html" target="_blank">Notícia 3: Iniciativas sustentáveis em Belém</a></li>
+            <li><a href="https://www.gov.br/planalto/pt-br/agenda-internacional/missoes-internacionais/cop28/cop-30-no-brasil" target="_blank">Notícia 4: COP 30 Belém</a></li>
+        </ul>
+    </div>
+
+    <div class="manual" id="manual" style="display: none;">
+        <h2>Manual de Uso do Chatbot</h2>
+        <p>Bem-vindo ao Chatbot COP 30! Aqui estão algumas instruções para usar o chatbot:</p>
+        <ul>
+            <li><strong>Digite sua pergunta:</strong> No campo de texto, digite sua pergunta sobre a COP 30. Por exemplo: "O que é a COP 30?"</li>
+            <li><strong>Pressione Enter ou clique em Enviar:</strong> Após digitar sua pergunta, pressione a tecla Enter ou clique no botão "Enviar" para obter a resposta.</li>
+            <li><strong>Sugestões de perguntas:</strong> Ao digitar "sugestão", o chatbot exibirá uma lista de perguntas frequentes que você pode selecionar.</li>
+            <li><strong>Suporte:</strong> Digite "suporte" para obter informações de contato e suporte técnico.</li>
+            <li><strong>Notícias:</strong> Acesse a seção de notícias para ler as últimas atualizações sobre a COP 30.</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>Para mais informações, acesse o site oficial da ONU sobre mudanças climáticas: <a href="https://www.un.org/climatechange" target="_blank">ONU Climate Change</a></p>
+    </footer>
+
+    <nav>
+        <a href="/">Início</a>
+        <a href="/quem-somos">Quem Somos</a>
+        <a href="/suporte">Suporte</a>
+        <a href="/proposito">Propósito</a>
+        <a href="#" onclick="mostrarManual()">Manual de Uso</a>
+    </nav>
+
+    <script>
+        const perguntas = {
+            "o": [
+                "O que é a COP 30?",
+                "Onde será a COP 30?",
+                "Qual o objetivo da COP 30?",
+                "Quais países participarão da COP 30?",
+                "O que é mudança climática?"
+            ],
+            "q": [
+                "Quais são os principais temas da COP 30?",
+                "Quem organiza a COP 30?",
+                "Quais são as metas da COP 30?",
+                "Quais são os desafios da COP 30?",
+                "Quais são as expectativas para a COP 30?"
+            ],
+            "c": [
+                "Como posso participar da COP 30?",
+                "Como a COP 30 impacta o Brasil?",
+                "Como a Amazônia é afetada pelas mudanças climáticas?",
+                "Como a COP 30 pode ajudar o meio ambiente?",
+                "Como funciona a COP 30?"
+            ],
+            "p": [
+                "Por que a COP 30 é importante?",
+                "Por que a Amazônia é crucial para o clima?",
+                "Por que a COP 30 será em Belém?",
+                "Por que devemos nos preocupar com o clima?",
+                "Por que os países participam da COP 30?"
+            ],
+            "a": [
+                "A COP 30 é a solução para o clima?",
+                "A Amazônia será tema central na COP 30?",
+                "A COP 30 terá participação popular?",
+                "A COP 30 trará resultados concretos?",
+                "A COP 30 é a última chance para o clima?"
+            ]
+        };
+
+        function mostrarSugestoes() {
+            const input = document.getElementById('mensagem').value.toLowerCase();
+            const primeiraLetra = input.charAt(0);
+            const sugestoesDiv = document.getElementById('sugestoes');
+            sugestoesDiv.innerHTML = '';
+
+            if (perguntas[primeiraLetra]) {
+                const sugestoes = perguntas[primeiraLetra].slice(0, 5);
+                sugestoes.forEach(sugestao => {
+                    const p = document.createElement('p');
+                    p.textContent = sugestao;
+                    p.onclick = () => selecionarSugestao(sugestao);
+                    sugestoesDiv.appendChild(p);
+                });
+                sugestoesDiv.style.display = 'block';
+            } else {
+                sugestoesDiv.style.display = 'none';
+            }
+        }
+
+        function selecionarSugestao(sugestao) {
+            document.getElementById('mensagem').value = sugestao;
+            document.getElementById('sugestoes').style.display = 'none';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                enviarMensagem();
+            }
+        }
+
+        function enviarMensagem() {
+            const mensagem = document.getElementById('mensagem').value.toLowerCase();
+            document.getElementById('mensagem').value = '';
+            const chatbox = document.getElementById('chatbox');
+            chatbox.innerHTML += `<p><strong>Você:</strong> ${mensagem}</p>`;
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mensagem: mensagem })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.resposta === "Desculpe, não tenho essa informação no momento.") {
+                    document.getElementById('lembrete').style.display = 'block';
+                } else {
+                    chatbox.innerHTML += `<p><strong>Chatbot Marcos:</strong> ${data.resposta}</p>`;
+                    document.getElementById('lembrete').style.display = 'none';
+                }
+                chatbox.scrollTop = chatbox.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                chatbox.innerHTML += `<p><strong>Erro:</strong> Não foi possível obter uma resposta.</p>`;
+            });
+        }
+
+        function mostrarManual() {
+            const manual = document.getElementById('manual');
+            if (manual.style.display === 'none') {
+                manual.style.display = 'block';
+            } else {
+                manual.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
